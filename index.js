@@ -104,6 +104,13 @@ console.log("\n------------------ // 8");
 // // ex:
 // chunkArray([1, 2, 3, 4, 5, 6, 7], 3) === [[1, 2, 3], [4, 5, 6], [7]];
 // chunkArray([1, 2, 3, 4, 5, 6, 7], 2) === [[1, 2], [3, 4], [5, 6], [7]];
+const chunkArray = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (el, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+
+console.log(chunkArray([1, 2, 3, 4, 5, 6, 7], 3)); // [[1, 2, 3], [4, 5, 6], [7]];
+console.log(chunkArray([1, 2, 3, 4, 5, 6, 7], 2)); // [[1, 2], [3, 4], [5, 6], [7]];
 
 //
 console.log("\n------------------ // 9");
@@ -111,13 +118,20 @@ console.log("\n------------------ // 9");
 // Take an array of arrays and flatten to a single array
 // ex:
 // [[1, 2], [3, 4], [5, 6], [7]] = [1, 2, 3, 4, 5, 6, 7]
-
+console.log([[1, 2], [3, 4], [5, 6], [7]].flat()); //  = [1, 2, 3, 4, 5, 6, 7]
 //
 console.log("\n------------------ // 10");
 // ### CHALLENGE 10: ANAGRAM
 // Return true if anagram and false if not
 // ex. isAnagram('elbow', 'below') === true
 // ex. isAnagram('Dormitory', ''dirty room##'') --> false
+
+const isAnagram = (str1, str2) =>
+  str1.split("").sort().toString() === str2.split("").sort().toString()
+    ? true
+    : false;
+console.log(isAnagram("elbow", "below")); // true
+console.log(isAnagram("Dormitory", "dirty room##")); // false
 
 //
 console.log("\n------------------ // 11");
@@ -126,6 +140,9 @@ console.log("\n------------------ // 11");
 // ex:
 // addAll(2, 5, 6, 7) === 20;
 
+const addAll = (...numbers) => numbers.reduce((acc, el) => acc + el, 0);
+console.log(addAll(2, 5, 6, 7)); // 20;
+
 //
 console.log("\n------------------ // 12");
 // ### CHALLENGE 12: SUM ALL PRIMES
@@ -133,12 +150,35 @@ console.log("\n------------------ // 12");
 // ex.
 // sumAllPrimes(10) === 17;
 
+const sumAllPrimes = (n) => {
+  let counter = 0;
+
+  for (let i = 2; i <= n; i++) {
+    let flag = 0;
+
+    for (let j = 2; j < i; j++) {
+      if (i % j === 0) {
+        flag = 1;
+        break;
+      }
+    }
+
+    if (i > 1 && flag == 0) counter += i;
+  }
+
+  return counter;
+};
+console.log(sumAllPrimes(10)); // 17
+
 //
 console.log("\n------------------ // 13");
-// ### CHALENGE 13: SEEK AND DESTROY
+// ### CHALLENGE 13: SEEK AND DESTROY
 // Remove from the array whatever is in the following arguments. Return the leftover numbers in an array
 // ex:
 // seekAndDestroy([2, 3, 4, 6, 6, 'hello'], 2, 6) == [3, 4, 'hello'];
+
+const seekAndDestroy = (arr, ...args) => arr.filter((el) => !args.includes(el));
+console.log(seekAndDestroy([2, 3, 4, 6, 6, "hello"], 2, 6)); // [3, 4, "hello"];
 
 //
 console.log("\n------------------ // 14");
@@ -147,5 +187,14 @@ console.log("\n------------------ // 14");
 // ex:
 // evenOddSums([50, 60, 60, 45, 71]) == [170, 116];
 
+const evenOddSums = (arr) => {
+  let evens = [];
+  let odds = [];
+  arr.forEach((el) => (el % 2 === 0 ? evens.push(el) : odds.push(el)));
+  let evensSum = evens.reduce((acc, el) => acc + el, 0);
+  let oddsSum = odds.reduce((acc, el) => acc + el, 0);
+  return [evensSum, oddsSum];
+};
+console.log(evenOddSums([50, 60, 60, 45, 71])); // [170, 116];
 //
 console.log("\n------------------ ");
